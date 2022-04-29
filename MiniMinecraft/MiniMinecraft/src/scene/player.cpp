@@ -243,65 +243,7 @@ void Player::detectCollision(glm::vec3 *rayDirection, const Terrain &terrain) {
     }
 }
 
-// remove the block currently overlapping the center of the screen when the left mouse button is pressed
-BlockType Player::removeBlock(Terrain *terrain) {
-    glm::vec3 rayOrigin = m_camera.mcr_position;
-    // block is within 3 units of distance from the camera
-    glm::vec3 rayDirection = 4.f * glm::normalize(this->m_forward);
-    glm::ivec3 outBlockHit = glm::ivec3();
-    float outDist = 0.f;
-    // if we found a block
-    if (gridMarch(rayOrigin, rayDirection, *terrain, &outDist, &outBlockHit)) {
-        BlockType blockType = terrain->getBlockAt(outBlockHit.x, outBlockHit.y, outBlockHit.z);
-        terrain->setBlockAt(outBlockHit.x, outBlockHit.y, outBlockHit.z, EMPTY);
-        uPtr<Chunk> &chunkToUpdate = terrain->getChunkAt(outBlockHit.x, outBlockHit.z);
 
-        chunkToUpdate->createVBOdata();
-        chunkToUpdate->sendVBOdata();
-        return blockType;
-    }
-    return EMPTY;
-}
-
-bool Player::placeBlock(Terrain *terrain, BlockType currBlockType) {
-    glm::vec3 rayOrigin = m_camera.mcr_position;
-    // block is within 3 units of distance from the camera
-    glm::vec3 rayDirection = 3.f * glm::normalize(this->m_forward);
-    glm::ivec3 outBlockHit = glm::ivec3();
-    float outDist = 0.f;
-    if (currBlockType != EMPTY) {
-        // this makes sure that i can't place a block in the air
-        if (gridMarch(rayOrigin, rayDirection, *terrain, &outDist, &outBlockHit)) {
-            // ray_axis checks which axis is hit in gridMatch first
-            if (ray_axis == 0) {
-                if (terrain->getBlockAt(outBlockHit.x, outBlockHit.y, outBlockHit.z + glm::sign(rayDirection.z)) == EMPTY) {
-                    terrain->setBlockAt(outBlockHit.x, outBlockHit.y, outBlockHit.z + glm::sign(rayDirection.z), currBlockType);
-                    uPtr<Chunk> &chunkToUpdate = terrain->getChunkAt(outBlockHit.x, outBlockHit.z + glm::sign(rayDirection.z));
-                    chunkToUpdate->createVBOdata();
-                    chunkToUpdate->sendVBOdata();
-                    return true;
-                }
-            } else if (ray_axis == 1) {
-                if (terrain->getBlockAt(outBlockHit.x, outBlockHit.y + 1, outBlockHit.z) == EMPTY) {
-                    terrain->setBlockAt(outBlockHit.x, outBlockHit.y + 1, outBlockHit.z, currBlockType);
-                    uPtr<Chunk> &chunkToUpdate = terrain->getChunkAt(outBlockHit.x, outBlockHit.z);
-                    chunkToUpdate->createVBOdata();
-                    chunkToUpdate->sendVBOdata();
-                    return true;
-                }
-            } else if (ray_axis == 2) {
-                if (terrain->getBlockAt(outBlockHit.x + glm::sign(rayDirection.x), outBlockHit.y, outBlockHit.z) == EMPTY) {
-                    terrain->setBlockAt(outBlockHit.x + glm::sign(rayDirection.x), outBlockHit.y, outBlockHit.z, currBlockType);
-                    uPtr<Chunk> &chunkToUpdate = terrain->getChunkAt(outBlockHit.x, outBlockHit.z);
-                    chunkToUpdate->createVBOdata();
-                    chunkToUpdate->sendVBOdata();
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
-}
 
 // returns the block that the camera position is at
 BlockType Player::getCameraBlock(const Terrain &terrain) {
