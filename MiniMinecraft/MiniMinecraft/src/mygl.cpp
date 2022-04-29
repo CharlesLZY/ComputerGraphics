@@ -333,59 +333,17 @@ void MyGL::keyReleaseEvent(QKeyEvent *e) {
 
 void MyGL::mouseMoveEvent(QMouseEvent *e) {
 
-    QPoint lastPosition = QPoint(width() / 2.f, height() / 2.f);
-    float delta_x = GLfloat(lastPosition.x() - e->pos().x()) / width();
-    float delta_y = GLfloat(lastPosition.y() - e->pos().y()) / height();
-    m_player.rotateOnUpGlobal(delta_x * 360 * 0.05f);
-    m_player.rotateOnRightLocal(delta_y * 360 * 0.05f);
-    // move mouse back to center
-    moveMouseToCenter();
+//     QPoint lastPosition = QPoint(width() / 2.f, height() / 2.f);
+//     float delta_x = GLfloat(lastPosition.x() - e->pos().x()) / width();
+//     float delta_y = GLfloat(lastPosition.y() - e->pos().y()) / height();
+//     m_player.rotateOnUpGlobal(delta_x * 360 * 0.05f);
+//     m_player.rotateOnRightLocal(delta_y * 360 * 0.05f);
+//     // move mouse back to center
+//     moveMouseToCenter();
 
 }
 
 void MyGL::mousePressEvent(QMouseEvent *e) {
-    // TODO: change the m_player remove and place block functions
-    if (e->button() == Qt::LeftButton) {
-        BlockType removedBlock = m_player.removeBlock(&m_terrain);
-        if (removedBlock == GRASS) {
-            numGrass++;
-        } else if (removedBlock == DIRT) {
-            numDirt++;
-        } else if (removedBlock == STONE) {
-            numStone++;
-        } else if (removedBlock == SAND) {
-            numSand++;
-        } else if (removedBlock == SNOW) {
-            numSnow++;
-        } else if (removedBlock == ICE) {
-            numIce++;
-        } else if (removedBlock == REDSTONE) {
-            numRedStone++;
-        } else if (removedBlock == PUMPKIN) {
-            numPumpkin++;
-        }
-    } else if (e->button() == Qt::RightButton) {
-        bool ifPlaced = false;
-        ifPlaced = m_player.placeBlock(&m_terrain, currBlockType);
-        if (ifPlaced) {
-            if (currBlockType == GRASS && numGrass > 0) {
-                numGrass--;
-            } else if (currBlockType == DIRT && numDirt > 0) {
-                numDirt--;
-            } else if (currBlockType == STONE && numStone > 0) {
-                numStone--;
-            } else if (currBlockType == SAND && numSand > 0) {
-                numSand--;
-            } else if (currBlockType == SNOW && numSnow > 0) {
-                numSnow--;
-            } else if (currBlockType == ICE && numIce > 0) {
-                numIce--;
-            } else if (currBlockType == REDSTONE && numRedStone > 0) {
-                numRedStone--;
-            } else if (currBlockType == PUMPKIN && numPumpkin > 0) {
-                numPumpkin--;
-            }
-        }
-    }
+
 }
 
