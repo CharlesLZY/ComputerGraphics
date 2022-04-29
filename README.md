@@ -1,2 +1,2 @@
-# ComputerGraphics
-UPenn CIS560 22 Spring
+# UPenn CIS560 22 Spring
+
