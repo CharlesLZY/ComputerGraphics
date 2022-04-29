@@ -29,8 +29,6 @@ public:
     void setCameraWidthHeight(unsigned int w, unsigned int h);
 
     void tick(float dT, InputBundle &input) override;
-    BlockType removeBlock(Terrain *terrain);
-    bool placeBlock(Terrain *terrain, BlockType currBlockType);
 
     BlockType getCameraBlock(const Terrain &terrain);
     BlockType getPositionBlock(const Terrain &terrain);
